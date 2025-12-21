@@ -1,0 +1,71 @@
+# database settings
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        jdbc.lob.non_contextual_creation: true
+
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: update
+
+    show-sql: false
+
+  liquibase:
+    enabled: false
+
+
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    port: 587
+    username: ${smtpUsername:kyomuhendopreciouskay@gmail.com}
+    password: ${smtpPassword:vjqtvdxmlcmhljqs}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            trust: smtp.gmail.com
+        protocol: smtp
+    test-connection: false
+
+  profiles:
+    active: uat
+
+  cloud:
+    gcp:
+      credentials:
+        location: ${gcpCredentialsFile:file:/home/precious-kay/Downloads/gcp.json}
+      config:
+        project-id: ${gcpProjectId:fifth-tensor-475208-u4}
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+gcp:
+  bucket:
+    name: ${gcpBucketName:KYOMUHENDO PRECIOUS}
+
+secret: 25432A462D4A614E645267556B586E3272357538782F413F4428472B4B6250655368566D5971337336763979244226452948404D635166546A576E5A72347537
+
+app:
+  name: ceres-projects
+  version: VER20240713001
+
+file.upload-dir: ceres_files
+
+
+USE_DOMAINS: true
+ADMIN_ROLE_DOMAIN: BACK_OFFICE
+ADMIN_ROLE_NAME: ADMINISTRATOR
+
+logging:
+  level:
+    web: DEBUG
