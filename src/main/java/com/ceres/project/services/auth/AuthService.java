@@ -32,10 +32,10 @@ public class AuthService extends BaseWebActionsService {
         String username= request.getString("username");
         String password= request.getString("password");
         if(username.isEmpty() || username == null){
-            return createErrorResponse(" username must not be empty");
+            return createErrorResponse(" username must not be provided");
         }
         if(password.isEmpty() || password == null){
-            return createErrorResponse("password  must not be empty");
+            return createErrorResponse("password  must not be provided");
         }
 
         authenticationManager.authenticate(
@@ -44,15 +44,15 @@ public class AuthService extends BaseWebActionsService {
 
         final SystemUserModel userDetails = userDetailService.loadUserByUsername(username);
         final String token = jwtUtility.generateToken(userDetails);
-        final String refreshToken = jwtUtility.generateRefreshToken(username);
+//        final String refreshToken = jwtUtility.generateRefreshToken(username);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("token", token); // this is the jwt token the user can user from now on.
+        response.put("token", token);
         response.put("user", userDetails);
-        response.put("refreshToken", refreshToken);
+//        response.put("refreshToken", refreshToken);
 
 //        OperationReturnObject res = new OperationReturnObject();
-        returnObject.setReturnCodeAndReturnMessage(0, "Welcome back " + userDetails.getUsername());
+        returnObject.setReturnCodeAndReturnMessage(0, "Logged in successfully");
         returnObject.setReturnObject(response);
 
         return returnObject;
@@ -66,6 +66,11 @@ public class AuthService extends BaseWebActionsService {
             String email = request.getString("email");
             String firstName = request.getString("firstName");
             String lastName = request.getString("lastName");
+            String role = request.getString("accountType");
+            String speciality = request.getString("speciality");
+            String professionalDetails = request.getString("professionalDetails");
+            String userProblem = request.getString("userProblem");
+            String problemDetails = request.getString("problemDetails");
 
             if (username == null || username.isEmpty()) {
                 return createErrorResponse("Username is either null or empty");
@@ -88,7 +93,11 @@ public class AuthService extends BaseWebActionsService {
             user.setPassword(passwordEncoder.encode(password));
             user.setFirstName(firstName);
             user.setLastName(lastName);
-            user.setRoleCode("USER");
+            user.setRoleCode(role);
+            user.setSpeciality(speciality);
+            user.setProfessionalDetails(professionalDetails);
+            user.setProblem(userProblem);
+            user.setProblemDetails(problemDetails);
             user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             user.setIsActive(true);
 
@@ -96,14 +105,13 @@ public class AuthService extends BaseWebActionsService {
             SystemUserModel savedUser = userRepository.save(user);
 
             final String accessToken = jwtUtility.generateToken(savedUser);
-            final String refreshToken = jwtUtility.generateRefreshToken(username);
+//            final String refreshToken = jwtUtility.generateRefreshToken(username);
 
             Map<String, Object> response = new HashMap<>();
             response.put("token", accessToken);
             response.put("user", savedUser);
-            response.put("refreshToken", refreshToken);
+//            response.put("refreshToken", refreshToken);
 
-//            OperationReturnObject res = new OperationReturnObject();
             returnObject.setReturnCodeAndReturnMessage(0, "Account created successfully for " + savedUser.getUsername());
             returnObject.setReturnObject(response);
 
@@ -145,12 +153,6 @@ public class AuthService extends BaseWebActionsService {
         }
     }
 
-//    private OperationReturnObject createErrorResponse(String errorMessage) {
-//        OperationReturnObject res = new OperationReturnObject();
-//        res.setReturnCodeAndReturnMessage(1, errorMessage);
-//        res.setReturnObject(null);
-//        return res;
-//    }
 
 
     @Override

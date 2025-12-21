@@ -41,6 +41,16 @@ public class SystemUserModel implements UserDetails {
     @Basic
     @Column(name = "role_code")
     private String roleCode;
+
+    @Column(name ="professional_Speciality")
+    private String speciality;
+    @Column(name = "professional_Details")
+    private String professionalDetails;
+
+    @Column(name="user_problem")
+    private String problem;
+    @Column(name="problem_Details")
+    private String problemDetails;
     @Basic
     @Column(name = "created_at")
     private Timestamp createdAt;
