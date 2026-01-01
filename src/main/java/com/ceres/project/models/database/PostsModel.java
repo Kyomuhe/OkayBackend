@@ -25,7 +25,7 @@ public class PostsModel {
     @Column(columnDefinition = "TEXT")
     private String body;
 
-    @Lob
+//    @Lob
     @Column(columnDefinition = "TEXT")
     private String coverImage;
 

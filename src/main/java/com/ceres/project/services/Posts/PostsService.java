@@ -7,6 +7,7 @@ import com.ceres.project.services.base.BaseWebActionsService;
 import com.ceres.project.utils.OperationReturnObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 import java.util.List;
@@ -53,6 +54,8 @@ public class PostsService extends BaseWebActionsService {
         }
     }
 
+
+//    @Transactional(readOnly = true)
     public OperationReturnObject displayPost(JSONObject request){
         try{
             Long userId = request.getLong("userId");
@@ -63,6 +66,8 @@ public class PostsService extends BaseWebActionsService {
             if(posts ==null){
                 return createErrorResponse("No posts yet");
             }
+
+
             res.setCodeAndMessageAndReturnObject(0, "retrieved posts succussfully",posts);
             return res;
         }catch(Exception e){
